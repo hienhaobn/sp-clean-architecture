@@ -1,0 +1,48 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      target: dev
+    ports:
+      - "8080:8080"
+    env_file: 
+      - .env.${APP_ENV}
+    environment:
+      SPRING_PROFILES_ACTIVE: ${APP_ENV}
+      SERVER_PORT: 8080
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./:/app
+      - maven-cache:/home/appuser/.m2  # Sử dụng thư mục .m2 trong home
+    user: "appuser"  # Chạy với người dùng appuser
+    restart: unless-stopped
+
+  db:
+    image: postgres:15-alpine
+    env_file: .env.${APP_ENV}
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "5438:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB} || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  postgres_data:
+  maven-cache:
+
+networks:
+  default:
+    driver: bridge
+    name: app_network

@@ -1,0 +1,61 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.prod
+      target: prod
+    volumes:
+      - ./target:/app/target:ro
+    command: ["java", "-jar", "app.jar"]
+    ports:
+      - "8080:8080"
+    env_file: 
+      - .env.${APP_ENV}
+    environment:
+      SPRING_PROFILES_ACTIVE: ${APP_ENV}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${POSTGRES_DB}
+      SERVER_PORT: 8080
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+
+    depends_on:
+      db:
+        condition: service_healthy
+    user: "appuser"
+    restart: always
+    networks:
+      - app_network
+
+  db:
+    image: postgres:15-alpine
+    env_file: .env.${APP_ENV}
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5438:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB} || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - app_network
+
+volumes:
+  postgres_data:
+  pgbackup:
+  maven-cache:
+
+networks:
+  app_network:
+    driver: bridge

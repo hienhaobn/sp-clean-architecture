@@ -1,0 +1,40 @@
+ARG HOST_UID=1000
+ARG HOST_GID=1000
+
+# Build stage
+FROM eclipse-temurin:21-jdk-jammy AS builder
+WORKDIR /app
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
+COPY src src/
+
+RUN apt-get update && \
+    apt-get install -y maven && \
+    ./mvnw clean package -DskipTests
+
+# Production image
+FROM eclipse-temurin:21-jre-jammy as prod
+
+# Tạo nhóm và người dùng
+RUN groupadd -g 1000 appgroup && \
+    useradd -u 1000 -g appgroup -m -d /home/appuser appuser
+
+# Copy file JAR từ builder stage
+COPY --from=builder /app/target/app.jar /app/app.jar
+# COPY target/sp-postgresql-0.0.1-SNAPSHOT.jar app.jar
+
+# Thiết lập quyền sở hữu
+RUN chown -R appuser:appgroup /app
+RUN chmod +x /app/app.jar
+# Chuyển sang user appuser
+USER appuser
+
+WORKDIR /app
+
+EXPOSE 8080
+
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+
+# Security metadata
+LABEL org.opencontainers.image.authors="Hien Hao"
+LABEL org.opencontainers.image.source="https://github.com/hienhaobn"
