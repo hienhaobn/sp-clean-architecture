@@ -10,7 +10,11 @@ services:
       - .env.${APP_ENV}
     environment:
       SPRING_PROFILES_ACTIVE: ${APP_ENV}
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
       SERVER_PORT: 8080
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
     depends_on:
       db:
         condition: service_healthy
