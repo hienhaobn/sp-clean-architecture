@@ -6,22 +6,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class CreateProductUseCase {
-    private static final Logger logger = LoggerFactory.getLogger(CreateProductUseCase.class);
-    private final ProductRepository productRepository;
 
-    public CreateProductUseCase(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
+  private static final Logger logger = LoggerFactory.getLogger(CreateProductUseCase.class);
 
-    public Product execute(Product product) {
-        logger.info("Creating new product: {}", product.getName());
-        try {
-            Product savedProduct = productRepository.save(product);
-            logger.info("Successfully created product with id: {}", savedProduct.getId());
-            return savedProduct;
-        } catch (Exception e) {
-            logger.error("Failed to create product: {}", product.getName(), e);
-            throw e;
-        }
+  private final ProductRepository productRepository;
+
+  public CreateProductUseCase(ProductRepository productRepository) {
+    this.productRepository = productRepository;
+  }
+
+  public Product execute(Product product) {
+    logger.info("Creating new product: {}", product.getName());
+    try {
+      Product savedProduct = productRepository.save(product);
+      logger.info("Successfully created product with id: {}", savedProduct.getId());
+      return savedProduct;
+    } catch (Exception e) {
+      logger.error("Failed to create product: {}", product.getName(), e);
+      throw e;
     }
+  }
 }

@@ -5,14 +5,14 @@ import com.techsolify.aquapure.domain.exception.ProductNotFoundException;
 import com.techsolify.aquapure.domain.repository.ProductRepository;
 
 public class GetProductByIdUseCase {
-    private final ProductRepository productRepository;
 
-    public GetProductByIdUseCase(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
+  private final ProductRepository productRepository;
 
-    public Product execute(Long id) {
-        return productRepository.findById(id)
-                .orElseThrow(() -> new ProductNotFoundException(id));
-    }
+  public GetProductByIdUseCase(ProductRepository productRepository) {
+    this.productRepository = productRepository;
+  }
+
+  public Product execute(Long id) {
+    return productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
+  }
 }
