@@ -1,0 +1,13 @@
+{
+  "name": "aquapure-formatter",
+  "version": "1.0.0",
+  "description": "Formatting tools for Aquapure project",
+  "private": true,
+  "scripts": {
+    "format": "prettier --write \"**/*.{json,yml,yaml,md,html,css,scss,js,ts,jsx,tsx}\"",
+    "format:check": "prettier --check \"**/*.{json,yml,yaml,md,html,css,scss,js,ts,jsx,tsx}\""
+  },
+  "devDependencies": {
+    "prettier": "^3.2.5"
+  }
+} 

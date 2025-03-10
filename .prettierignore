@@ -1,0 +1,37 @@
+# Maven
+target/
+.mvn/
+
+# Generated files
+build/
+dist/
+node_modules/
+
+# Java files (được format bởi Google Java Format)
+*.java
+
+# Compiled class files
+*.class
+
+# Log files
+*.log
+
+# Package files
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+.project
+.classpath
+.settings/
+
+# Others
+*.min.js
+*.min.css 

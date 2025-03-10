@@ -12,7 +12,7 @@ public class ProductId {
   }
 
   public static ProductId of(Long value) {
-    if (value == null || value <= 0) {
+    if (value != null && value <= 0) {
       throw new InvalidProductException("Product ID must be greater than 0");
     }
     return new ProductId(value);
@@ -37,6 +37,6 @@ public class ProductId {
 
   @Override
   public String toString() {
-    return value.toString();
+    return value != null ? value.toString() : "null";
   }
 }

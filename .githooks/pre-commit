@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Git hook pre-commit để kiểm tra định dạng code
+echo "Running pre-commit hook for format checking..."
+
+# Chạy script kiểm tra định dạng
+./scripts/check-format.sh
+
+# Nếu script kiểm tra trả về lỗi, ngăn commit
+if [ $? -ne 0 ]; then
+  echo "Error: Code formatting check failed. Please format your code using ./scripts/format.sh"
+  exit 1
+fi
+
+exit 0 

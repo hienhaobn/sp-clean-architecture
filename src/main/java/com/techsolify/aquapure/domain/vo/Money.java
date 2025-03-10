@@ -9,12 +9,12 @@ public class Money {
   private final BigDecimal amount;
 
   private Money(BigDecimal amount) {
-    this.amount = amount;
+    this.amount = amount != null ? amount : BigDecimal.ZERO;
   }
 
   public static Money of(BigDecimal amount) {
-    if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
-      throw new InvalidProductException("Price must be greater than 0");
+    if (amount != null && amount.compareTo(BigDecimal.ZERO) < 0) {
+      throw new InvalidProductException("Price cannot be negative");
     }
     return new Money(amount);
   }
@@ -32,7 +32,11 @@ public class Money {
   }
 
   public Money subtract(Money other) {
-    return new Money(this.amount.subtract(other.amount));
+    BigDecimal result = this.amount.subtract(other.amount);
+    if (result.compareTo(BigDecimal.ZERO) < 0) {
+      throw new InvalidProductException("Result cannot be negative");
+    }
+    return new Money(result);
   }
 
   @Override
