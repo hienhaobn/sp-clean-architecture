@@ -5,13 +5,13 @@ services:
       dockerfile: docker/Dockerfile
       target: dev
     ports:
-      - "8080:8080"
-    env_file: 
+      - "8088:8088"
+    env_file:
       - .env.${APP_ENV}
     environment:
       SPRING_PROFILES_ACTIVE: ${APP_ENV}
       SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
-      SERVER_PORT: 8080
+      SERVER_PORT: 8088
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
       SPRING_JPA_HIBERNATE_DDL_AUTO: validate
@@ -20,8 +20,8 @@ services:
         condition: service_healthy
     volumes:
       - ./:/app
-      - maven-cache:/home/appuser/.m2  # Sử dụng thư mục .m2 trong home
-    user: "appuser"  # Chạy với người dùng appuser
+      - maven-cache:/home/appuser/.m2 # Sử dụng thư mục .m2 trong home
+    user: "appuser" # Chạy với người dùng appuser
     restart: unless-stopped
 
   db:

@@ -27,4 +27,6 @@ public class ProductEntity {
   private double price;
 
   private int quantity;
+
+  private boolean isActive;
 }

@@ -24,29 +24,29 @@ All API endpoints return a consistent JSON response structure, including the fol
 
 ### Basic Fields
 
-| Field | Data Type | Description |
-|-------|-----------|-------------|
-| `success` | boolean | Request status (true: success, false: failure) |
-| `message` | string | Message from the server |
-| `code` | string | Error code (only appears when `success = false`) |
-| `data` | any | Data returned from the server |
-| `timestamp` | string | Request processing time (format `yyyy-MM-dd HH:mm:ss`) |
+| Field       | Data Type | Description                                            |
+| ----------- | --------- | ------------------------------------------------------ |
+| `success`   | boolean   | Request status (true: success, false: failure)         |
+| `message`   | string    | Message from the server                                |
+| `code`      | string    | Error code (only appears when `success = false`)       |
+| `data`      | any       | Data returned from the server                          |
+| `timestamp` | string    | Request processing time (format `yyyy-MM-dd HH:mm:ss`) |
 
 ### Error Fields
 
-| Field | Data Type | Description |
-|-------|-----------|-------------|
-| `errors` | string[] | List of error messages |
-| `validationErrors` | object | List of validation errors as key-value pairs, where key is the field name and value is the error message |
+| Field              | Data Type | Description                                                                                              |
+| ------------------ | --------- | -------------------------------------------------------------------------------------------------------- |
+| `errors`           | string[]  | List of error messages                                                                                   |
+| `validationErrors` | object    | List of validation errors as key-value pairs, where key is the field name and value is the error message |
 
 ### Pagination Fields
 
-| Field | Data Type | Description |
-|-------|-----------|-------------|
-| `pageNumber` | number | Current page number |
-| `pageSize` | number | Page size |
-| `totalElements` | number | Total number of elements |
-| `totalPages` | number | Total number of pages |
+| Field           | Data Type | Description              |
+| --------------- | --------- | ------------------------ |
+| `pageNumber`    | number    | Current page number      |
+| `pageSize`      | number    | Page size                |
+| `totalElements` | number    | Total number of elements |
+| `totalPages`    | number    | Total number of pages    |
 
 ## Response Examples
 
@@ -61,13 +61,13 @@ All API endpoints return a consistent JSON response structure, including the fol
       "id": 1,
       "name": "Water Purifier Model A",
       "description": "Advanced water purification system",
-      "price": 1200.00
+      "price": 1200.0
     },
     {
       "id": 2,
       "name": "Water Filter Cartridge",
       "description": "Replacement cartridge for water purifier",
-      "price": 50.00
+      "price": 50.0
     }
   ],
   "timestamp": "2025-03-10 10:15:30"
@@ -84,13 +84,13 @@ All API endpoints return a consistent JSON response structure, including the fol
       "id": 1,
       "name": "Water Purifier Model A",
       "description": "Advanced water purification system",
-      "price": 1200.00
+      "price": 1200.0
     },
     {
       "id": 2,
       "name": "Water Filter Cartridge",
       "description": "Replacement cartridge for water purifier",
-      "price": 50.00
+      "price": 50.0
     }
   ],
   "pageNumber": 0,
@@ -131,15 +131,15 @@ All API endpoints return a consistent JSON response structure, including the fol
 
 Below is a list of error codes used in the application:
 
-| Error Code | Description |
-|------------|-------------|
-| `INTERNAL_SERVER_ERROR` | Internal server error |
-| `RESOURCE_NOT_FOUND` | Resource not found |
-| `BAD_REQUEST` | Invalid request |
-| `VALIDATION_ERROR` | Data validation error |
+| Error Code                 | Description              |
+| -------------------------- | ------------------------ |
+| `INTERNAL_SERVER_ERROR`    | Internal server error    |
+| `RESOURCE_NOT_FOUND`       | Resource not found       |
+| `BAD_REQUEST`              | Invalid request          |
+| `VALIDATION_ERROR`         | Data validation error    |
 | `DATA_INTEGRITY_VIOLATION` | Data integrity violation |
-| `UNAUTHORIZED` | Unauthorized access |
-| `FORBIDDEN` | Access forbidden |
+| `UNAUTHORIZED`             | Unauthorized access      |
+| `FORBIDDEN`                | Access forbidden         |
 
 ## Usage in Frontend
 
@@ -147,10 +147,11 @@ When handling responses from the API in the frontend, you should always check th
 
 ```javascript
 // Example of handling response with Axios
-axios.get('/api/products')
-  .then(response => {
+axios
+  .get("/api/products")
+  .then((response) => {
     const apiResponse = response.data;
-    
+
     if (apiResponse.success) {
       // Handle successful data
       const products = apiResponse.data;
@@ -162,8 +163,8 @@ axios.get('/api/products')
       // Display error message...
     }
   })
-  .catch(error => {
+  .catch((error) => {
     // Handle network or server error
-    console.error('API Error:', error);
+    console.error("API Error:", error);
   });
-``` 
+```

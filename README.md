@@ -63,17 +63,20 @@ src/
 We provide an automated setup script that will check your environment, install dependencies, and set up the project for you.
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/yourusername/sp-clean-architecture.git
    cd sp-clean-architecture
    ```
 
 2. Run the setup script:
+
    ```bash
    ./scripts/setup.sh
    ```
-   
+
    The script will:
+
    - Check if you have all required tools installed (Java, Maven, PostgreSQL, Git, Node.js)
    - Install npm dependencies (for code formatting)
    - Offer to set up PostgreSQL using Docker (recommended)
@@ -82,11 +85,13 @@ We provide an automated setup script that will check your environment, install d
    - Format the code
 
 3. After setup completes, you can start the application:
+
    ```bash
    ./mvnw spring-boot:run
    ```
-   
+
    Or using Docker:
+
    ```bash
    docker-compose up -d
    ```
@@ -101,12 +106,14 @@ We provide an automated setup script that will check your environment, install d
 If you prefer to set up the project manually instead of using the automated script:
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/yourusername/sp-clean-architecture.git
    cd sp-clean-architecture
    ```
 
 2. Configure database connection in `application.properties`:
+
    ```properties
    spring.datasource.url=jdbc:postgresql://localhost:5432/yourdb
    spring.datasource.username=yourusername
@@ -114,22 +121,26 @@ If you prefer to set up the project manually instead of using the automated scri
    ```
 
 3. Install npm dependencies (required for code formatting):
+
    ```bash
    npm install
    ```
 
 4. Set up Git hooks (for code quality checks):
+
    ```bash
    git config core.hooksPath .githooks
    chmod +x .githooks/pre-commit
    ```
 
 5. Build the project:
+
    ```bash
    mvn clean install
    ```
 
 6. Format the code:
+
    ```bash
    ./scripts/format.sh
    ```
@@ -146,11 +157,13 @@ The project includes Docker configuration for easy setup:
 1. Ensure Docker and Docker Compose are installed on your system
 
 2. Start all services (application and database):
+
    ```bash
    docker-compose up -d
    ```
 
 3. For database only (if you want to run the application locally):
+
    ```bash
    docker-compose up -d db
    ```
@@ -167,11 +180,13 @@ If you're new to this project, follow these steps to get started quickly:
 ### Environment Setup
 
 1. **Development Tools**:
+
    - Install [IntelliJ IDEA](https://www.jetbrains.com/idea/) (recommended) or Eclipse
    - Install [Postman](https://www.postman.com/) for API testing
    - Install [pgAdmin](https://www.pgadmin.org/) for PostgreSQL management
 
 2. **Project Configuration**:
+
    - Configure your IDE with the project's code style settings
    - Enable annotation processing in your IDE for Lombok
    - Set up EditorConfig plugin
@@ -184,6 +199,7 @@ If you're new to this project, follow these steps to get started quickly:
 ### Understanding the Project
 
 1. **Key Files to Review**:
+
    - `src/main/java/com/techsolify/aquapure/AquapureApplication.java`: Main application entry point
    - `src/main/resources/application.properties`: Application configuration
    - `src/main/java/com/techsolify/aquapure/adapter/common/ApiResponse.java`: Standard response format
@@ -198,11 +214,13 @@ If you're new to this project, follow these steps to get started quickly:
 ### Development Workflow
 
 1. **Running the Application**:
+
    - Run with IDE: Execute the main class `AquapureApplication.java`
    - Run with Maven: `mvn spring-boot:run`
    - Run with debug mode: Add breakpoints and use your IDE's debug configuration
 
 2. **Making Changes**:
+
    - Create a feature branch from `main`: `git checkout -b feature/your-feature-name`
    - Implement your changes following the project's code style
    - Write unit tests for your changes
@@ -210,6 +228,7 @@ If you're new to this project, follow these steps to get started quickly:
    - Commit with descriptive messages following conventional commits
 
 3. **Testing Your Changes**:
+
    - Run unit tests: `mvn test`
    - Test the API using Swagger or Postman
    - Verify exception handling with the test endpoints
@@ -222,6 +241,7 @@ If you're new to this project, follow these steps to get started quickly:
 ### Common Development Tasks
 
 1. **Adding a New Entity**:
+
    - Create a domain entity in `domain/entity`
    - Create corresponding value objects in `domain/vo`
    - Define repository interface in `domain/repository`
@@ -231,6 +251,7 @@ If you're new to this project, follow these steps to get started quickly:
    - Create controller in `adapter/controller`
 
 2. **Implementing a New API Endpoint**:
+
    - Define the endpoint in an existing or new controller
    - Implement required use cases
    - Add Swagger documentation
@@ -258,6 +279,7 @@ If you're new to this project, follow these steps to get started quickly:
 The API provides the following endpoints:
 
 - **Products API**:
+
   - `GET /api/products`: Get all products
   - `GET /api/products/{id}`: Get product by ID
   - `POST /api/products`: Create a new product
@@ -265,6 +287,7 @@ The API provides the following endpoints:
   - `DELETE /api/products/{id}`: Delete a product
 
 - **API Status**:
+
   - `GET /api/status`: Get API status
   - `GET /api/health`: Get service health status
 

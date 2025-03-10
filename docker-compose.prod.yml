@@ -9,7 +9,7 @@ services:
     command: ["java", "-jar", "app.jar"]
     ports:
       - "8080:8080"
-    env_file: 
+    env_file:
       - .env.${APP_ENV}
     environment:
       SPRING_PROFILES_ACTIVE: ${APP_ENV}

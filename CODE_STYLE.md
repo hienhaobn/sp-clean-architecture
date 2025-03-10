@@ -102,6 +102,7 @@ If you're new to the project, here are some important guidelines to follow:
 - Include examples for complex methods
 
 Example:
+
 ```java
 /**
  * Retrieves a product by its unique identifier.
@@ -138,6 +139,7 @@ Follow the [Conventional Commits](https://www.conventionalcommits.org/) specific
 ```
 
 Types:
+
 - `feat`: A new feature
 - `fix`: A bug fix
 - `docs`: Documentation changes
@@ -147,6 +149,7 @@ Types:
 - `chore`: Changes to the build process or auxiliary tools
 
 Examples:
+
 ```
 feat(product): add endpoint to retrieve products by category
 fix(auth): resolve JWT token validation issue

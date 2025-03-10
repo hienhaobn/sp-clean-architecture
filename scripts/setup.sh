@@ -54,7 +54,7 @@ if type -p node > /dev/null; then
     else
         echo -e "  ${YELLOW}⚠ Node.js phiên bản ${NODE_VER} đã được cài đặt, nhưng khuyến nghị sử dụng Node.js 14 trở lên${NC}"
     fi
-    
+
     if type -p npm > /dev/null; then
         echo -e "  ${GREEN}✓ npm đã được cài đặt${NC}"
     else
@@ -169,6 +169,6 @@ echo -e "${GREEN}=== Thiết lập hoàn tất! ===${NC}"
 echo -e "Bạn có thể khởi động ứng dụng bằng lệnh: ${BLUE}./mvnw spring-boot:run${NC}"
 echo -e "Hoặc sử dụng Docker: ${BLUE}docker-compose up -d${NC}"
 echo ""
-echo -e "Tài liệu API có sẵn tại: ${BLUE}http://localhost:8080/swagger-ui.html${NC}"
+echo -e "Tài liệu API có sẵn tại: ${BLUE}http://localhost:8088/swagger-ui.html${NC}"
 echo -e "Tham khảo tài liệu trong file README.md và CODE_STYLE.md để biết thêm chi tiết."
-echo "" 
+echo ""
