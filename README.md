@@ -55,8 +55,50 @@ src/
 - Java 17 or higher
 - Maven 3.6.x or higher
 - PostgreSQL database
+- Git
+- Node.js and npm (for code formatting)
 
-### Installation
+### Automated Setup (Recommended for New Developers)
+
+We provide an automated setup script that will check your environment, install dependencies, and set up the project for you.
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/sp-clean-architecture.git
+   cd sp-clean-architecture
+   ```
+
+2. Run the setup script:
+   ```bash
+   ./scripts/setup.sh
+   ```
+   
+   The script will:
+   - Check if you have all required tools installed (Java, Maven, PostgreSQL, Git, Node.js)
+   - Install npm dependencies (for code formatting)
+   - Offer to set up PostgreSQL using Docker (recommended)
+   - Configure Git hooks for code quality
+   - Compile the project
+   - Format the code
+
+3. After setup completes, you can start the application:
+   ```bash
+   ./mvnw spring-boot:run
+   ```
+   
+   Or using Docker:
+   ```bash
+   docker-compose up -d
+   ```
+
+4. Access the API documentation:
+   ```
+   http://localhost:8080/swagger-ui.html
+   ```
+
+### Manual Setup
+
+If you prefer to set up the project manually instead of using the automated script:
 
 1. Clone the repository:
    ```bash
@@ -71,19 +113,51 @@ src/
    spring.datasource.password=yourpassword
    ```
 
-3. Build the project:
+3. Install npm dependencies (required for code formatting):
+   ```bash
+   npm install
+   ```
+
+4. Set up Git hooks (for code quality checks):
+   ```bash
+   git config core.hooksPath .githooks
+   chmod +x .githooks/pre-commit
+   ```
+
+5. Build the project:
    ```bash
    mvn clean install
    ```
 
-4. Run the application:
+6. Format the code:
+   ```bash
+   ./scripts/format.sh
+   ```
+
+7. Run the application:
    ```bash
    mvn spring-boot:run
    ```
 
-5. Access the API documentation:
+### Using Docker
+
+The project includes Docker configuration for easy setup:
+
+1. Ensure Docker and Docker Compose are installed on your system
+
+2. Start all services (application and database):
+   ```bash
+   docker-compose up -d
    ```
-   http://localhost:8080/swagger-ui.html
+
+3. For database only (if you want to run the application locally):
+   ```bash
+   docker-compose up -d db
+   ```
+
+4. Stop all services:
+   ```bash
+   docker-compose down
    ```
 
 ## Onboarding for New Developers
