@@ -84,7 +84,7 @@ We provide an automated setup script that will check your environment, install d
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/sp-clean-architecture.git
+   git clone https://github.com/hienhaobn/sp-clean-architecture.git
    cd sp-clean-architecture
    ```
 
@@ -127,7 +127,7 @@ If you prefer to set up the project manually instead of using the automated scri
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/sp-clean-architecture.git
+   git clone https://github.com/hienhaobn/sp-clean-architecture.git
    cd sp-clean-architecture
    ```
 
