@@ -47,16 +47,35 @@ src/
 - **Validation**: Input validation with detailed error messages
 - **Value Objects**: Immutable value objects for domain concepts
 - **Aspect-Oriented Programming**: Cross-cutting concerns handled via AOP
+- **Distributed Caching**: Redis-based caching for improved performance
+- **Full-Text Search**: Elasticsearch integration for powerful search capabilities
+- **Object Storage**: MinIO integration for file storage and management
+- **Docker Support**: Complete containerization with Docker Compose
+- **Health Checks**: Built-in health monitoring for all services
+- **Environment-based Configuration**: Separate configurations for development and production
+
+## Prerequisites
+
+### For Testing/Running Only
+- Docker and Docker Compose
+
+### For Development
+- Java 21 or higher
+- Maven 3.6.x or higher (or use the included Maven wrapper)
+- Docker and Docker Compose
+- Git
+- IDE (IntelliJ IDEA recommended)
+
+### Optional Tools
+- PostgreSQL client (for direct database access)
+- Redis client (for cache inspection)
+- Elasticsearch client (for search index management)
+- MinIO client (for object storage management)
+- Node.js and npm (for code formatting)
+
+Note: When using Docker Compose for running the application (`docker compose up -d`), you don't need Java or Maven installed locally. However, for local development with hot reload and debugging capabilities, Java 21 is required.
 
 ## Getting Started
-
-### Prerequisites
-
-- Java 17 or higher
-- Maven 3.6.x or higher
-- PostgreSQL database
-- Git
-- Node.js and npm (for code formatting)
 
 ### Automated Setup (Recommended for New Developers)
 
@@ -77,7 +96,7 @@ We provide an automated setup script that will check your environment, install d
 
    The script will:
 
-   - Check if you have all required tools installed (Java, Maven, PostgreSQL, Git, Node.js)
+   - Check if you have all required tools installed (Java, Maven, Docker, Git, Node.js)
    - Install npm dependencies (for code formatting)
    - Offer to set up PostgreSQL using Docker (recommended)
    - Configure Git hooks for code quality
@@ -152,26 +171,70 @@ If you prefer to set up the project manually instead of using the automated scri
 
 ### Using Docker
 
-The project includes Docker configuration for easy setup:
+The project includes Docker configuration for easy setup of all required services:
 
 1. Ensure Docker and Docker Compose are installed on your system
 
-2. Start all services (application and database):
+2. Start all services:
 
    ```bash
-   docker-compose up -d
+   docker compose up -d
    ```
 
-3. For database only (if you want to run the application locally):
+   This will start the following services:
+   - Application (Spring Boot) on port 8089
+   - PostgreSQL database on port 5438
+   - Elasticsearch on ports 9200 and 9300
+   - MinIO (Object Storage) on ports 9000 (API) and 9001 (Console)
+   - Redis on port 6379
 
-   ```bash
-   docker-compose up -d db
-   ```
+3. Access the services:
+   - Application API: http://localhost:8089
+   - MinIO Console: http://localhost:9001
+   - Elasticsearch: http://localhost:9200
+   - PostgreSQL: localhost:5438
+   - Redis: localhost:6379
 
 4. Stop all services:
    ```bash
-   docker-compose down
+   docker compose down
    ```
+
+5. View service logs:
+   ```bash
+   docker compose logs -f [service_name]
+   ```
+   Available services: app, db, elasticsearch, minio, redis
+
+6. Rebuild and restart a specific service:
+   ```bash
+   docker compose up -d --build [service_name]
+   ```
+
+### Environment Variables
+
+The application uses environment variables for configuration. Create a `.env.dev` file for development:
+
+```properties
+# Application
+APP_ENV=dev
+SERVER_PORT=8089
+
+# Database
+POSTGRES_DB=aquapure
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+
+# MinIO
+MINIO_ACCESS_KEY=minioadmin
+MINIO_SECRET_KEY=minioadmin
+MINIO_BUCKET_NAME=aquapure
+
+# Redis
+REDIS_PASSWORD=redis
+```
+
+For production, create a `.env.prod` file with secure values.
 
 ## Onboarding for New Developers
 
@@ -215,28 +278,75 @@ If you're new to this project, follow these steps to get started quickly:
 
 1. **Running the Application**:
 
-   - Run with IDE: Execute the main class `AquapureApplication.java`
-   - Run with Maven: `mvn spring-boot:run`
-   - Run with debug mode: Add breakpoints and use your IDE's debug configuration
+   - **Option 1: Full Docker Environment** (recommended for testing):
+     ```bash
+     docker compose up -d    # Start all services including the application
+     docker compose logs -f  # Watch logs
+     ```
 
-2. **Making Changes**:
+   - **Option 2: Local Development with IDE** (recommended for development):
+     ```bash
+     # First, start required services in Docker (database, cache, search, storage)
+     docker compose up -d db elasticsearch minio redis
+
+     # Then run the application either through:
+     # a) Your IDE: Run AquapureApplication.java (recommended for development)
+     # b) Maven: mvn spring-boot:run
+     ```
+
+     Benefits of local development:
+     - Hot reload capabilities
+     - Better debugging experience
+     - Breakpoints support
+     - Direct log viewing in IDE
+     - Code completion and navigation
+
+   Note: For local development, ensure you have Java 21 installed and properly configured in your IDE.
+
+2. **Working with Services**:
+
+   - **Database (PostgreSQL)**:
+     - Connect using: localhost:5438, database: aquapure
+     - Default credentials: postgres/postgres
+     - View logs: `docker compose logs -f db`
+
+   - **Elasticsearch**:
+     - Access: http://localhost:9200
+     - View indices: http://localhost:9200/_cat/indices
+     - View logs: `docker compose logs -f elasticsearch`
+
+   - **MinIO**:
+     - Console: http://localhost:9001
+     - Default credentials: minioadmin/minioadmin
+     - View logs: `docker compose logs -f minio`
+
+   - **Redis**:
+     - Connect using: localhost:6379
+     - Default password: redis
+     - View logs: `docker compose logs -f redis`
+
+3. **Making Changes**:
 
    - Create a feature branch from `main`: `git checkout -b feature/your-feature-name`
    - Implement your changes following the project's code style
    - Write unit tests for your changes
    - Verify code quality with `mvn verify`
+   - Test with all required services using Docker Compose
    - Commit with descriptive messages following conventional commits
 
-3. **Testing Your Changes**:
+4. **Testing Your Changes**:
 
    - Run unit tests: `mvn test`
-   - Test the API using Swagger or Postman
-   - Verify exception handling with the test endpoints
+   - Run integration tests: `mvn verify -P integration-test`
+   - Test the API using Swagger UI at http://localhost:8089/swagger-ui.html
+   - Verify service integration using health endpoints at http://localhost:8089/actuator/health
 
-4. **Code Review Process**:
-   - Push your branch and create a pull request
-   - Address review comments
-   - Ensure all checks pass before merging
+5. **Debugging**:
+
+   - View application logs: `docker compose logs -f app`
+   - Access service-specific logs using `docker compose logs -f [service_name]`
+   - Use your IDE's debugger with the application running locally
+   - Monitor service health at http://localhost:8089/actuator/health
 
 ### Common Development Tasks
 
